@@ -1,6 +1,6 @@
 {
   "name": "@cbourgois/simonsays",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "lint": "eslint --quiet --fix --format=pretty src",
     "test": "yarn run lint"
