@@ -5,21 +5,20 @@ const Table = require('cli-table3');
 const program = require('commander');
 const ora = require('ora');
 const path = require('path');
+const wrapAnsi = require('wrap-ansi');
 
 const SimonSays = require('../src/simonsays');
 const pkg = require('../package.json');
 
 const outputModules = (sourcePath, modules, output = 'summary') => {
-  const header = [
-    chalk.yellow('Module'),
-    chalk.yellow('Used'),
-    chalk.yellow('Missings'),
-    chalk.yellow('Results'),
-  ];
-
   if (output === 'summary') {
     const table = new Table({
-      head: header,
+      head: [
+        chalk.yellow('Module'),
+        chalk.yellow('Used'),
+        chalk.yellow('Missings'),
+        chalk.yellow('Results'),
+      ],
     });
 
     table.push(
@@ -44,36 +43,59 @@ const outputModules = (sourcePath, modules, output = 'summary') => {
 
   if (output === 'text') {
     const table = new Table({
-      head: header,
+      head: [
+        chalk.yellow('Used'),
+        chalk.yellow('Missings'),
+        chalk.yellow('Results'),
+      ],
+      colWidths: [null, null, 80],
     });
 
+    const moduleNameRows = modules.map((module) => {
+      const modulePath = path.relative(sourcePath, module.path);
+      return [
+        {
+          colSpan: 3,
+          hAlign: 'center',
+          content: `./${modulePath}`,
+        },
+      ];
+    });
+    const moduleRows = modules.map((module) => {
+      const usedTranslations = module.used.map((translation) => {
+        if (module.missings.indexOf(translation) > -1) {
+          return chalk.red(translation);
+        }
+        if (Object.keys(module.compatibles).indexOf(translation) > -1) {
+          return chalk.green(translation);
+        }
+        return chalk.italic(chalk.blue(translation));
+      }).join('\n');
+
+
+      const missingsTranslations = module.missings.join('\n');
+      const compatiblesTranslations = Object.keys(module.compatibles)
+        .map(key => wrapAnsi(
+          `${chalk.green(key)}: "${chalk.italic(chalk.cyan(module.compatibles[key]))}"`,
+          80,
+        ))
+        .join('\n');
+
+      return [
+        usedTranslations,
+        missingsTranslations,
+        compatiblesTranslations,
+      ];
+    });
+
+    const rows = moduleNameRows.reduce((acc, value, index) => {
+      acc.push(value);
+      acc.push(moduleRows[index]);
+      return acc;
+    }, []);
+
     table.push(
-      ...modules.map((module) => {
-        const modulePath = path.relative(sourcePath, module.path);
-
-        const usedTranslations = module.used.map((translation) => {
-          if (module.missings.indexOf(translation) > -1) {
-            return chalk.red(translation);
-          }
-          if (Object.keys(module.compatibles).indexOf(translation) > -1) {
-            return chalk.green(translation);
-          }
-          return chalk.italic(chalk.blue(translation));
-        }).join('\n');
-
-
-        const missingsTranslations = module.missings.join('\n');
-        const compatiblesTranslations = Object.keys(module.compatibles)
-          .map(key => `${chalk.green(key)}: "${chalk.italic(chalk.cyan(module.compatibles[key]))}"`)
-          .join('\n');
-
-        return [
-          `./${modulePath}`,
-          usedTranslations,
-          missingsTranslations,
-          compatiblesTranslations,
-        ];
-      }),
+      ...rows,
     );
 
     console.log(table.toString());
