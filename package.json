@@ -1,6 +1,6 @@
 {
   "name": "@cbourgois/simonsays",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Find translations used in AngularJS project",
   "keywords": [
     "AST",
