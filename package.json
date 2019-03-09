@@ -1,12 +1,21 @@
 {
   "name": "@cbourgois/simonsays",
   "version": "1.0.0",
+  "description": "Find translations used in AngularJS project",
+  "keywords": [
+    "AST",
+    "AngularJS",
+    "angular-translate",
+    "translations"
+  ],
+  "repository": "cbourgois/simonsays",
+  "license": "MIT",
+  "bin": {
+    "simonsays": "./bin/simonsays.js"
+  },
   "scripts": {
     "lint": "eslint --quiet --fix --format=pretty src",
     "test": "yarn run lint"
-  },
-  "bin": {
-    "simonsays": "./bin/simonsays.js"
   },
   "dependencies": {
     "@babel/generator": "^7.3.4",
