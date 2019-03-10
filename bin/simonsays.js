@@ -102,7 +102,13 @@ const outputModules = (sourcePath, modules, output = 'summary') => {
   }
 
   if (output === 'json') {
-    console.log(modules);
+    console.log(
+      JSON.stringify(
+        modules,
+        null,
+        2,
+      ),
+    );
   }
 };
 
