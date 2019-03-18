@@ -88,8 +88,7 @@ module.exports = class HtmlCompiler {
         const [translationKey] = this.parseExpression(expression, identifier);
         const newTranslationKey = this.renameMap[translationKey] || translationKey;
         let newExpression = expression.replace(translationKey, newTranslationKey);
-
-        if (translationKey.indexOf('*') > -1) {
+        if (translationKey && translationKey.indexOf('*') > -1) {
           const [translationPart] = translationKey.split('*');
 
           const [newTranslationPart] = newTranslationKey.split('*');
