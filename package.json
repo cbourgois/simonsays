@@ -8,8 +8,13 @@
     "angular-translate",
     "translations"
   ],
-  "repository": "cbourgois/simonsays",
+  "repository": "https://github.com/cbourgois/simonsays",
   "license": "MIT",
+  "author": {
+    "name": "Cyrille Bourgois",
+    "email": "cyrille.bourgois@gmail.com",
+    "url": "https://cyrillebourgois.fr"
+  },
   "bin": {
     "simonsays": "./bin/simonsays.js"
   },
