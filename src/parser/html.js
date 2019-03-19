@@ -88,11 +88,22 @@ module.exports = class HtmlParser {
       ];
     });
 
-    if (interpolation.literal && identifier) {
-      translationsKeys = [
-        ...translationsKeys,
-        interpolation.literal,
-      ];
+    if (interpolation.literal) {
+      if (identifier) {
+        translationsKeys = [
+          ...translationsKeys,
+          interpolation.literal,
+        ];
+      } else {
+        try {
+          translationsKeys = [
+            ...translationsKeys,
+            ...this.parseExpression(interpolation.literal, false),
+          ];
+        } catch (error) {
+          // it's normal, `class` attribte content is not an expression
+        }
+      }
     }
     return translationsKeys;
   }
@@ -135,7 +146,8 @@ module.exports = class HtmlParser {
       });
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error(error);
+      // console.error(error);
+      // do something
     }
     return translationKeys;
   }

@@ -108,19 +108,27 @@ module.exports = class SimonSays {
     prefix = '',
   ) {
     const modules = await this.search(projectPath, byModule, locale, merge, all);
+    const modulesToUpdate = modules.filter(module => Object.keys(module.compatibles).length > 0);
 
+    const prefixTranslationKey = prefix !== '';
     let translationPrefix = '';
-    if (prefix !== '') {
+    if (prefixTranslationKey) {
       translationPrefix = endsWith(prefix, '_') ? prefix : `${prefix}_`;
     }
 
     return Promise.mapSeries(
-      modules,
+      modulesToUpdate,
       async (module) => {
-        const moduleRenamed = await SimonSays.renameTranslations(
-          module,
-          translationPrefix,
-        );
+
+        let moduleRenamed = module;
+
+        if (prefixTranslationKey) {
+          moduleRenamed = await SimonSays.renameTranslations(
+            module,
+            translationPrefix,
+          );
+        }
+
         const translationFile = await SimonSays.generateTranslationFile(moduleRenamed, locale);
         return {
           ...moduleRenamed,
