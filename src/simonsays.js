@@ -108,6 +108,7 @@ module.exports = class SimonSays {
     prefix = '',
   ) {
     const modules = await this.search(projectPath, byModule, locale, merge, all);
+    const modulesToUpdate = modules.filter(module => Object.keys(module.compatibles).length > 0);
 
     let translationPrefix = '';
     if (prefix !== '') {
@@ -115,7 +116,7 @@ module.exports = class SimonSays {
     }
 
     return Promise.mapSeries(
-      modules,
+      modulesToUpdate,
       async (module) => {
         const moduleRenamed = await SimonSays.renameTranslations(
           module,
