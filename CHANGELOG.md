@@ -1,3 +1,14 @@
+## [1.0.5](https://github.com/cbourgois/simonsays/compare/1.0.4...1.0.5) (2019-03-19)
+
+
+### Bug Fixes
+
+* **parser.html:** retrieve translation key if attribute contains a literal ([#9](https://github.com/cbourgois/simonsays/issues/9)) ([e4d5f14](https://github.com/cbourgois/simonsays/commit/e4d5f14))
+* **simonsays.rewrite:** avoid generating empty translations files ([#10](https://github.com/cbourgois/simonsays/issues/10)) ([f1c515f](https://github.com/cbourgois/simonsays/commit/f1c515f)), closes [#3](https://github.com/cbourgois/simonsays/issues/3)
+* **simonsays.rewrite:** prevent generate files ([#12](https://github.com/cbourgois/simonsays/issues/12)) ([ccf7bff](https://github.com/cbourgois/simonsays/commit/ccf7bff)), closes [#2](https://github.com/cbourgois/simonsays/issues/2)
+
+
+
 ## [1.0.4](https://github.com/cbourgois/simonsays/compare/v1.0.3...v1.0.4) (2019-03-18)
 
 
