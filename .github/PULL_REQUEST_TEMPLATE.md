@@ -1,3 +1,5 @@
+| Q             | A
+| ------------- | ---
 | Branch?       | develop for features / master for hofixes <!-- see below -->
 | Bug fix?      | yes/no
 | New feature?  | yes/no <!-- don't forget to update src/**/CHANGELOG.md files -->
