@@ -1,3 +1,12 @@
+## [1.0.7](https://github.com/cbourgois/simonsays/compare/1.0.6...1.0.7) (2019-03-20)
+
+
+### Bug Fixes
+
+* **check:** prevent undetectable translations ([#18](https://github.com/cbourgois/simonsays/issues/18)) ([216b5d3](https://github.com/cbourgois/simonsays/commit/216b5d3)), closes [#16](https://github.com/cbourgois/simonsays/issues/16)
+
+
+
 ## [1.0.6](https://github.com/cbourgois/simonsays/compare/1.0.5...1.0.6) (2019-03-20)
 
 
