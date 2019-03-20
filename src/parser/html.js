@@ -56,12 +56,11 @@ module.exports = class HtmlParser {
         const cleanedKey = key.replace('data-', '');
 
         let attributeTranslations = [];
-        // console.log(index, key, attributes[key])
         if (cleanedKey === 'translate') {
-          // console.log('\t data-translate: ', attributes[key]);
           attributeTranslations = this.parseAttributeValue(attributes[key], true);
+        } else if (cleanedKey === 'translate-attr') {
+          attributeTranslations = this.parseAttributeValue(attributes[key]);
         } else {
-        // if (['class', 'style'].indexOf(cleanedKey) === -1)
           attributeTranslations = this.parseAttributeValue(attributes[key]);
         }
 
@@ -98,7 +97,7 @@ module.exports = class HtmlParser {
         try {
           translationsKeys = [
             ...translationsKeys,
-            ...this.parseExpression(interpolation.literal, false),
+            ...this.parseExpression(interpolation.literal, identifier),
           ];
         } catch (error) {
           // it's normal, `class` attribte content is not an expression
@@ -126,8 +125,17 @@ module.exports = class HtmlParser {
             translationKeys.push(node.expression.name);
           } else if (t.isMemberExpression(node.expression)) {
             // console.log(node.expression);
-          } else {
-            // console.log(node.expression.type);
+          } else if (t.isObjectExpression(node.expression)) {
+            node.expression.properties.forEach((property) => {
+              if (property.value.type === 'BinaryExpression') {
+                translationKeys.push(HtmlParser.buildBinaryExpression(property.value));
+              } else if (
+                t.isLiteral(property.value)
+                && `${property.value.value}` === property.value.value
+              ) {
+                translationKeys.push(property.value.value);
+              }
+            });
           }
         },
         CallExpression(callPath) {
