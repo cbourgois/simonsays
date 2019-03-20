@@ -1,3 +1,12 @@
+## [1.0.6](https://github.com/cbourgois/simonsays/compare/1.0.5...1.0.6) (2019-03-20)
+
+
+### Bug Fixes
+
+* **parser.html:** handle translate-attr attributes ([#14](https://github.com/cbourgois/simonsays/issues/14)) ([06e5008](https://github.com/cbourgois/simonsays/commit/06e5008))
+
+
+
 ## [1.0.5](https://github.com/cbourgois/simonsays/compare/1.0.4...1.0.5) (2019-03-19)
 
 
