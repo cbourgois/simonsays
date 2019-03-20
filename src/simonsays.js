@@ -6,6 +6,7 @@ const flattenDeep = require('lodash/flattenDeep');
 const includes = require('lodash/includes');
 const reduce = require('lodash/reduce');
 const uniq = require('lodash/uniq');
+const without = require('lodash/without');
 const path = require('path');
 
 const AngularJSCompiler = require('./compiler/angularjs');
@@ -36,17 +37,22 @@ module.exports = class SimonSays {
       modules,
       async (module) => {
         const used = await SimonSays.findUsed(module);
+        const hasUndetectable = includes(used, '*');
+        const usedTranslationKeys = without(used, '*');
 
         const { missings, compatibles, declared } = await SimonSays.findDeclaredTranslations({
           ...module,
-          used,
+          used: usedTranslationKeys,
         }, locale);
+
+
         return {
           ...module,
-          used,
+          used: usedTranslationKeys,
           declared,
           missings,
           compatibles,
+          hasUndetectable,
         };
       },
     );
@@ -119,7 +125,6 @@ module.exports = class SimonSays {
     return Promise.mapSeries(
       modulesToUpdate,
       async (module) => {
-
         let moduleRenamed = module;
 
         if (prefixTranslationKey) {
