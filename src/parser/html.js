@@ -180,6 +180,9 @@ module.exports = class HtmlParser {
       right = HtmlParser.buildBinaryExpression(node.right);
     }
 
+    if (left === '*' && right === '*') {
+      return '*';
+    }
     return left + right;
   }
 };

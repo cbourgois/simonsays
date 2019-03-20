@@ -12,13 +12,20 @@ const pkg = require('../package.json');
 
 const outputModules = (sourcePath, modules, output = 'summary') => {
   if (output === 'summary') {
+
+    const hasUndetectableCol = modules.map(module => module.hasUndetectable).length;
+    const head = [
+      chalk.yellow('Module'),
+      chalk.yellow('Used'),
+      chalk.yellow('Missings'),
+      chalk.yellow('Results'),
+    ];
+    if (hasUndetectableCol) {
+      head.push(chalk.yellow('Contains undetectable'));
+    }
+
     const table = new Table({
-      head: [
-        chalk.yellow('Module'),
-        chalk.yellow('Used'),
-        chalk.yellow('Missings'),
-        chalk.yellow('Results'),
-      ],
+      head,
     });
 
     table.push(
@@ -27,7 +34,8 @@ const outputModules = (sourcePath, modules, output = 'summary') => {
         const numUsed = module.used.length;
         const numMissings = module.missings.length;
         const numCompatibles = Object.keys(module.compatibles).length;
-        return [
+
+        const row = [
           `./${modulePath}`,
           numUsed,
           numMissings > 0 ? chalk.red(numMissings) : chalk.green(numMissings),
@@ -35,6 +43,12 @@ const outputModules = (sourcePath, modules, output = 'summary') => {
             ? chalk.red(numCompatibles)
             : chalk.green(numCompatibles),
         ];
+
+        if (hasUndetectableCol) {
+          row.push(module.hasUndetectable ? chalk.red('yes') : chalk.green('no'));
+        }
+
+        return row;
       }),
     );
 
@@ -53,11 +67,15 @@ const outputModules = (sourcePath, modules, output = 'summary') => {
 
     const moduleNameRows = modules.map((module) => {
       const modulePath = path.relative(sourcePath, module.path);
+      let content = `./${modulePath}`;
+      if (module.hasUndetectable) {
+        content = `${content} ${chalk.red('(contains undetectable translations)')}`;
+      }
       return [
         {
           colSpan: 3,
           hAlign: 'center',
-          content: `./${modulePath}`,
+          content,
         },
       ];
     });
