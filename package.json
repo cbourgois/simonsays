@@ -19,7 +19,7 @@
     "simonsays": "./bin/simonsays.js"
   },
   "scripts": {
-    "lint": "eslint --quiet --fix --format=pretty src",
+    "lint": "eslint --quiet --fix --format=pretty src bin",
     "test": "yarn run lint"
   },
   "dependencies": {
