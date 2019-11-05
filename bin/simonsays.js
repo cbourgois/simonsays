@@ -12,7 +12,6 @@ const pkg = require('../package.json');
 
 const outputModules = (sourcePath, modules, output = 'summary') => {
   if (output === 'summary') {
-
     const hasUndetectableCol = modules.map(module => module.hasUndetectable).length;
     const head = [
       chalk.yellow('Module'),
