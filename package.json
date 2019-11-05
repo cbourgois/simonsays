@@ -19,8 +19,8 @@
     "simonsays": "./bin/simonsays.js"
   },
   "scripts": {
-    "lint": "eslint --quiet --fix --format=pretty src",
-    "test": "ava",
+    "lint": "eslint --quiet --fix --format=pretty src bin",
+    "test": "yarn run lint && ava",
     "coverage:html": "nyc --reporter=html ava"
   },
   "dependencies": {
